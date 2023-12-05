@@ -1,0 +1,111 @@
+@use 'sass:map';
+
+footer {
+  // Use the correct grid area (spans 3 columns).
+  grid-area: footer;
+
+  display: grid;
+  // Add a column on either side to align with the main area's bleed spacing.
+  // These side columns will not shrink below the bleed size, but will expand
+  // as needed on mobile devices, allowing the footer to be centered.
+  // The content column will be either the rest of the space on smaller
+  // viewports or the width of the main area (including bleed) on desktop,
+  // whichever is smaller.
+  grid-template-columns:
+    minmax(var(--lt-bl-w), 1fr)
+    min(calc(var(--lt-c-cw)), calc(100% - 2 * var(--lt-bl-w)))
+    minmax(var(--lt-bl-w), 1fr);
+
+  // TODO: Evaluate, especially the top padding.
+  padding-block: var(--s-8) calc(var(--s-8) + var(--s-2));
+
+  // This `div` element is a necessary wrapper to allow for a flex layout
+  // to be applied to the footer's content.
+  div {
+    // Place the content in the content column (skip left spacing column).
+    grid-column: 2;
+    // Allow wrapping, align correctly and add some spacing between items.
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: last baseline;
+    // TODO: This x2 is exactly as much as we can go, might as well codify it somewhere.
+    gap: var(--s-8) calc(var(--s-8) * 2);
+  }
+
+  p {
+    // Size based on the user's font size.
+    flex-basis: 20rem;
+    flex-grow: 1;
+    max-width: 25rem;
+    // Use a better wrapping algorithm, if available.
+    text-wrap: pretty;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--s-3);
+    justify-content: space-between;
+    // Define the column count of the sitemap list here, so that it can be
+    // overridden in the media query below.
+    --sitemap-column-count: 2;
+    flex-grow: 1;
+
+    @media (max-width: 40rem) {
+      // Respond to the user's font size, changing the layout only as needed.
+      // Display 3 columns on narrow viewports.
+      --sitemap-column-count: 3;
+      // Prevent the nav from expanding horizontally.
+      flex-grow: 0;
+    }
+  }
+
+  p,
+  ul {
+    font-size: var(--font-sm);
+  }
+
+  ul {
+    // Use columns to display links in 2/3 columns, depending on viewport.
+    columns: var(--sitemap-column-count);
+    column-gap: var(--s-6);
+    // TODO: List redo (second pass).
+    list-style: none;
+    padding-inline-start: 0;
+  }
+
+  a {
+    // Remove underline from links.
+    --clr-lnk-ul: transparent;
+    // Set the hover color to the correct color.
+    --clr-lnk-hv: var(--clr-primary-100);
+    // Set the transition duration to the correct duration.
+    --anm-lnk-d: var(--anm-d-md);
+
+    // Apply a transition on hover.
+    transition: color var(--anm-lnk-d) ease;
+
+    @media (hover: hover) {
+      // Only apply hover styles on devices that support hover.
+      &:is(:hover, :focus) {
+        color: var(--clr-lnk-hv);
+      }
+    }
+  }
+
+  small {
+    // Span the entire width of the footer.
+    flex-basis: 100%;
+    // Make more discreet than the rest of the content.
+    // TODO: Micro, really?
+    font-size: var(--font-mi);
+    color: var(--clr-txt-050);
+    text-align: center;
+
+    a {
+      --clr-lnk-hv: var(--clr-txt-200);
+      --anm-lnk-d: var(--anm-d-sh);
+    }
+  }
+}

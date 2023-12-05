@@ -1,0 +1,22 @@
+// Spacing (s-)
+// TODO: These need a rework to map to new values entirely.
+// TODO: Uncertain about the px values everywhere, make little sense in some
+// inline contexts. Need to rethink this.
+$spacing: (
+  '0': 0,
+  '0-5': 2px,
+  '1': 4px,
+  '2': 8px,
+  '3': 12px,
+  '4': 16px,
+  '5': 20px,
+  '6': 24px,
+  '8': 32px,
+  '10': 40px,
+  '12': 48px,
+);
+$V_spacing: vmap($spacing, 's');
+
+:root {
+  @include vmap-to-variables($V_spacing);
+}

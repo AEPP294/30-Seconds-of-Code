@@ -1,0 +1,54 @@
+table {
+  // Remove gaps between table borders by default.
+  border-spacing: 0;
+  border-collapse: collapse;
+  // Fill the entire parent container.
+  width: 100%;
+}
+
+th {
+  // Correct the font weight for table headers.
+  font-weight: 600;
+}
+
+td,
+th {
+  // Center text in table cells.
+  text-align: center;
+  // Add a border around table cells.
+  border: 1px solid var(--clr-table-border);
+  // Add padding to table cells.
+  padding: var(--s-1);
+}
+
+// This selector is needed to override specificity of `main > article > *`
+main > article > .table-wrapper {
+  // Span the entire width of the container.
+  width: 100%;
+  grid-column: 1 / 4;
+  // Overflow tables only horizontally.
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  // TODO: Scrollbars needed!?
+
+  // Define a variable for the `clip-path`. This needs to be wider than the
+  // border itself for some odd reason, and it should never be greater than the
+  // inside padding of the cells.
+  --clip-path-inset: 4px;
+  table {
+    // Clip the outer border of the table, allowing for a rounded border to be
+    // added  by the wrapper and also a tiny empty space between the outer
+    // border and the borders between the cells.
+    clip-path: polygon(
+      var(--clip-path-inset) var(--clip-path-inset),
+      calc(100% - var(--clip-path-inset)) var(--clip-path-inset),
+      calc(100% - var(--clip-path-inset)) calc(100% - var(--clip-path-inset)),
+      var(--clip-path-inset) calc(100% - var(--clip-path-inset))
+    );
+  }
+  // TODO: Temp! Move the color elsewhere and evaluate.
+  --clr-table-border: hsl(235, 7%, 39%);
+  border: 1px solid var(--clr-table-border);
+  border-radius: var(--br-md);
+}

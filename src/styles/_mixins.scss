@@ -1,0 +1,36 @@
+@use 'sass:map';
+
+/// Maps a map to CSS classes
+/// @param {Map} $map - The map to map over
+/// @param {String} $property - The CSS property to set
+/// @param {String} $prefix ('') - The prefix to add to the class names
+@mixin map-to-classes($map, $property, $prefix: '') {
+  @if $prefix != '' {
+    $prefix: $prefix + '-';
+  }
+  @each $key, $value in $map {
+    .#{$prefix}#{$key} {
+      #{$property}: #{$value};
+    }
+  }
+}
+
+/// Maps a vmap to CSS variables
+/// @param {Map} $vmap - The vmap to map over
+@mixin vmap-to-variables($vmap) {
+  @each $key, $value in map.get($vmap, 'vars') {
+    #{$key}: #{$value};
+  }
+}
+
+// Applies styles to an element to visually hide it, but keep it accessible
+@mixin visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}

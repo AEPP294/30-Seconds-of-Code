@@ -1,0 +1,17 @@
+---
+const { items = [] } = Astro.props;
+---
+
+<nav aria-label='Collections'>
+  <ul>
+    {items.map(item => (
+      <li>
+        <a
+          class='chip'
+          href={item.url}
+          data-selected={item.selected}
+        >{item.title}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
